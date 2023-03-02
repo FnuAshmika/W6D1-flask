@@ -37,7 +37,7 @@ def login():
         user_match = User.query.filter_by(email=email).first()
         if not user_match or not user_match.verify_password(password):
             flash(f'Username or Password incorrect. Try again!!!')
-            return redirect('/signin')
+            return redirect('/login')
 
         flash(f'{form.email.data} successfully signed in!!')
         # login_user(username)
