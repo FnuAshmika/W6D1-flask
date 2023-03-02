@@ -26,5 +26,5 @@ class CarForm(FlaskForm):
     model = StringField('Model', validators=[DataRequired()])
     year = IntegerField('Year', validators=[DataRequired()])
     color = StringField('Color', validators=[DataRequired()])
-    price = DecimalField('Price', validators=[DataRequired()]) 
+    price = StringField('Price', validators=[DataRequired()]) 
     submit = SubmitField('Submit')    

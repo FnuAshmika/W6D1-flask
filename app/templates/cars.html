@@ -1,0 +1,10 @@
+{% extends "base.jinja" %}
+{% block content %}
+  <h2>All Cars</h2>
+  <ol>
+    {% for car in cars %}
+      <li>{{ car.make }} {{ car.model }} {{ car.year }}- {{ car.price }}</li>
+    {% endfor %}
+  </ol>
+{% endblock %}
+
