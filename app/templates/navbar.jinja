@@ -11,7 +11,7 @@
         <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
         {% if current_user.is_active %}
         {# <a class="nav-link" href="{{ url_for('social.blog') }}">Blog</a> #}
-        <a class="nav-link" href="{{ url_for('social.user', username=current_user.username )}}">Profile</a>
+        <a class="nav-link" href="{{ url_for('social.user', username=current_user.username )}}">Your Cars</a>
         <a class="nav-link" href="{{ url_for('social.cars') }}">Post A Cars!</a>
         <a class="nav-link" href="{{ url_for('auth.sign_out') }}">SignOut</a>
         {% else %}
