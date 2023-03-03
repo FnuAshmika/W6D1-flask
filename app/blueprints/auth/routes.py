@@ -49,5 +49,7 @@ def register():
 @auth_bp.route('/signout')
 @login_required
 def sign_out():
+    flash(f'{current_user.username} successfully signed out!')
     logout_user()
+    
     return redirect('/')
