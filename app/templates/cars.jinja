@@ -1,0 +1,46 @@
+
+
+{% extends "base.jinja" %}
+{% block content %}
+    <h2>Post your car details here.</h2>
+    <form action="" method="post">
+        {{ car_form.hidden_tag() }}
+        <p>
+            {{ car_form.make.label }}<br>
+            {{ car_form.make(size=32) }}
+            {% for error in car_form.make.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+           {{ car_form.model.label }}<br>
+            {{ car_form.model(size=32) }}
+            {% for error in car_form.model.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ car_form.color.label }}<br>
+            {{ car_form.color(size=32) }}
+            {% for error in car_form.color.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ car_form.year.label }}<br>
+            {{ car_form.year(size=32) }}
+            {% for error in car_form.year.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ car_form.price.label }}<br>
+            {{ car_form.price(size=32) }}
+            {% for error in car_form.price.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ car_form.submit(class='btn btn-success') }}</p>
+    </form>
+{% endblock %}

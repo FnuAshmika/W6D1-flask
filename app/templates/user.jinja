@@ -1,0 +1,8 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+<h2>{{ user.username }} Profile</h2>
+{% for car in cars %}
+    <p>{{ car.author.username }} posted=>   Make:{{ car.make }} || Model:{{ car.model }}  || Color:{{ car.color }} ||  Year:{{ car.year }} || Price:{{ car.price }}</p>
+{% endfor %}
+{% endblock %}

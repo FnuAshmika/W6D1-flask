@@ -1,34 +1,10 @@
+from . import bp as auth_bp
 from flask import render_template, flash, redirect
-from app import app, db
-from app.forms import RegisterForm, LoginForm, BlogForm, CarForm
-from app.models import User, Car
-# from flask_login import current_user, login_user
+from app.forms import RegisterForm, LoginForm
+from app.blueprints.social.models import User
+from flask_login import current_user, login_user, logout_user, login_required
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = CarForm()
-    if form.validate_on_submit():
-        make= form.make.data
-        model= form.model.data
-        color= form.color.data
-        year= form.year.data
-        price= form.price.data
-        c= Car(make=make, model=model, color=color, year=year, price=price)
-        c.commit()
-        flash(f'Successfully submitted!!')  
-        return redirect('/')
-    return render_template('index.jinja', title='Home', car_form=form) 
-
-@app.route('/about')
-def about():
-    return render_template('about.jinja')
-
-@app.route('/blog')
-def blog():
-    form = BlogForm()
-    return render_template('blog.jinja', blog_form=form)
-
-@app.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -37,14 +13,14 @@ def login():
         user_match = User.query.filter_by(email=email).first()
         if not user_match or not user_match.verify_password(password):
             flash(f'Username or Password incorrect. Try again!!!')
-            return redirect('/login')
+            return redirect('/auth/login')
 
         flash(f'{form.email.data} successfully signed in!!')
-        # login_user(username)
+        login_user(user_match, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.jinja', login_form = form)
 
-@app.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -58,10 +34,10 @@ def register():
         email_match = User.query.filter_by(email=email).first()
         if user_match:
             flash(f'Username {username} already exist. Try again!!')
-            return redirect('/register')
+            return redirect('/auth/register')
         elif email_match:
             flash(f'Email {email} already exist. Try again!!')
-            return redirect('/register')
+            return redirect('/auth/register')
         else:
             u.hash_password(password)
             u.commit()
@@ -70,11 +46,8 @@ def register():
         
     return render_template('register.jinja', form=form)
 
-@app.route('/cars')
-def cars():
-    all_cars = Car.query.all()
-    return render_template('cars.html', cars=all_cars)
-
-
-
- 
+@auth_bp.route('/signout')
+@login_required
+def sign_out():
+    logout_user()
+    return redirect('/')
